@@ -29,9 +29,9 @@ else
 	git clone https://github.com/KIT-IBT/vtkToolbox.git
 	mkdir vtkToolbox/build
 	cd vtkToolbox/build
-	cmake .. # you might want to specify the path to VTK here, e.g.: cmake .. -D VTK_DIR=../../vtk-8.2.0/build
+	cmake .. -DMatlab_ROOT_DIR="/usr/local/MATLAB/R2023a/" -DVTK_DIR="/home/federico/vtk/install/lib/cmake/vtk-9.3" #you might want to specify the path to VTK here, e.g.: cmake .. -D VTK_DIR=../../vtk-8.2.0/build
 	make -j
-	cd ../..
+	cd ../..	cd ../..
 fi
 
 echo -e "\n========== Installing condalab ==========\n"
