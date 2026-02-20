@@ -1,0 +1,1 @@
+{"inPrefix":"geo1/heart","outPrefix":"result_geo1/","exportLevel":3,"verbose":true,"mappingTol":0.5,"tol":1E-8,"maxit":3000,"truncSeptSur":[20,10],"abExtrapSmooth":0.25,"mmgSizingParam":[0.1,0.9,1.1],"CobivecoX":false,"bridgeCutDistancePercentile":75}

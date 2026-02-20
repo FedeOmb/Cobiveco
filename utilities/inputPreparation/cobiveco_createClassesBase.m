@@ -6,7 +6,7 @@ function [sur,debug] = cobiveco_createClasses(sur, baseNormal, maxAngle, numSubd
     
     % Performs loop subdivision of vtkPolyData
     s = vtkLoopSubdivisionFilter(sur, numSubdiv);
-    keyboard;
+    %keyboard;
     % Delauney triangulation
     tr = vtkToTriangulation(s);
     % calculate angle between faceNormal and baseNormal

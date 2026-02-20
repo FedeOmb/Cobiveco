@@ -6,6 +6,7 @@ __pycache__/
 *.vtk
 *.vtp
 *.vtu
+*.vtk
 *.txt
 *.lon
 *.elem
@@ -24,7 +25,7 @@ __pycache__/
 *.nod
 *.pts
 *.pvsm
-examples/result*
+#examples/result*
 gptoolbox/
 mmg/
 vtkToolbox/
