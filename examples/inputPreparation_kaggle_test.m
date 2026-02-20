@@ -45,17 +45,17 @@ vtkWrite(debug, 'patient502kaggle/debug3_sub2.vtk');
 
 %% Remove bridges
 %keyboard
-%[vol,debug,mmgOutput] = cobiveco_removeBridges(vol, sur, baseNormal, 'rv', true);
-%vtkWrite(debug, 'patient501kaggle/debug4.vtk');
+[vol,debug,mmgOutput] = cobiveco_removeBridges(vol, sur, baseNormal, 'rv', true);
+vtkWrite(debug, 'patient501kaggle/debug4.vtk');
 
 %% Recreate surface classes
 %keyboard
-%sur = vtkDataSetSurfaceFilter(vol);
+sur = vtkDataSetSurfaceFilter(vol);
 
 %sur.tv = ones(size(sur.points,1), 1);
 
-%[sur,debug] = cobiveco_createClasses(sur, baseNormal, maxAngle, numSubdiv);
-%vtkWrite(debug, 'patient501kaggle/debug5.vtk');
+[sur,debug] = cobiveco_createClasses(sur, baseNormal, maxAngle, numSubdiv);
+vtkWrite(debug, 'patient501kaggle/debug5.vtk');
 
 %% Write result
 vtkWrite(sur, 'patient502kaggle/test_clipping_patient502_sur_sub2.vtk');
