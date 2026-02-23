@@ -35,7 +35,7 @@ function [sur,debug] = cobiveco_createClasses(sur, baseNormal, maxAngle, numSubd
     end
 
     nonbase = vtkConnectivityFilter(vtkThreshold(s, 'cells', 'base', [-inf 0]));
-    num_unique_nonbase = numel(unique(nonbase.pointData.RegionId)) 
+    numel(unique(nonbase.pointData.RegionId)) 
 
     if numel(unique(nonbase.pointData.RegionId)) ~= 3
         warning('cobiveco_createClasses: Number of non-base regions ~= 3. Manual interaction needed - aborting.');

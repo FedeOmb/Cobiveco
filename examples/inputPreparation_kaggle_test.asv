@@ -5,11 +5,11 @@ addpath('../functions');
 
 clear all;
 
-input_folder = ['patient503kagglefine' '/'];
-output_folder = input_folder;
-
+input_folder = 'patient503kagglefine';
+output_folder = 'result'
 %% Read original mesh
-vol = vtkRead([input_folder 'patient502kagglefine.vtu']);
+
+vol = vtkRead('patient502kagglefine/patient502kagglefine.vtu');
 
 %% Estimate the normal vector and the origin of a basal plane
 
