@@ -11,7 +11,7 @@ diary(fullfile(output_folder,'log.txt'));
 diary on;
 
 % Create a cobiveco object, providing a config struct with input and output path prefixes
-c = cobiveco(struct('inPrefix',[input_folder input_prefix], 'outPrefix', output_folder, 'exportLevel',2));
+c = cobiveco(struct('inPrefix',[input_folder input_prefix], 'outPrefix', output_folder));
 
 % Run computation of all coordinates
 c.prepareMesh0;
@@ -25,15 +25,15 @@ end
 result = c.result;
 config = c.cfg;
 
-% % aggiunge le classi di superficie come pointData nella mesh finale
-% if isfield(c,'m0') && isfield(c.m0,'surToVol') && isfield(c.m0,'sur') && isfield(c.m0.sur.pointData,'class')
-%     cls = uint8(zeros(size(result.points,1),1));
-%     cls(c.m0.surToVol) = c.m0.sur.pointData.class;
-%     result.pointData.surClass = cls;
-% end
+% aggiunge le classi di superficie come pointData nella mesh finale
+if isfield(c,'m0') && isfield(c.m0,'surToVol') && isfield(c.m0,'sur') && isfield(c.m0.sur.pointData,'class')
+    cls = uint8(zeros(size(result.points,1),1));
+    cls(c.m0.surToVol) = c.m0.sur.pointData.class;
+    result.pointData.surClass = cls;
+end
 
 % salva la mesh risultato con le classi
-%vtkWrite(result, fullfile(output_folder,'result_with_classes.vtu'));
+vtkWrite(result, fullfile(output_folder,'result_with_classes.vtu'));
 
 % Save result and config as JSON text files
 %resOutFile = fopen(fullfile(output_folder,'result.txt'),'w');

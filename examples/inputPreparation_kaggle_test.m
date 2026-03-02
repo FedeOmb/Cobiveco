@@ -5,14 +5,13 @@ addpath('../functions');
 
 clear all;
 
-input_folder = ['patient503kagglefine' '/'];
+input_folder = ['patient503kagglefine_inputprep' '/'];
 output_folder = input_folder;
 
 %% Read original mesh
-vol = vtkRead([input_folder 'patient502kagglefine.vtu']);
+vol = vtkRead([input_folder 'patient503kagglefine.vtk']);
 
 %% Estimate the normal vector and the origin of a basal plane
-
 sur = vtkDataSetSurfaceFilter(vol);
 
 % center = mean(sur.points);
@@ -21,9 +20,8 @@ sur = vtkDataSetSurfaceFilter(vol);
 % proj = (sur.points - center) * dirSep';
 % sur.tv = uint8(proj > 0);
 
-
 [baseNormal,baseOrigin,debug] = cobiveco_estimateBaseNormalAndOrigin(sur);
-vtkWrite(debug, 'patient502kagglefine/debug1.vtk');
+vtkWrite(debug, [output_folder 'debug1.vtk']);
 
 %% Adjust baseNormal and baseOrigin, if needed
 
@@ -34,18 +32,17 @@ vtkWrite(debug, 'patient502kagglefine/debug1.vtk');
 %% Clip mesh at the basal plane
 
 vol = cobiveco_clipBase(vol, baseNormal, baseOrigin);
-vtkWrite(vol, 'patient502kagglefine/debug2.vtk');
+vtkWrite(vol,  [output_folder 'debug2.vtk']);
 
 %% Create surface classes
 
 sur = vtkDataSetSurfaceFilter(vol);
-
 %sur.tv = ones(size(sur.points,1), 1, 'uint8');
 
 maxAngle = 40; % max angle of face normals wrt baseNormal for defining the base class
 numSubdiv = 1; % can help for coarse meshes (interpolation of face normals)
 [sur,debug] = cobiveco_createClasses(sur, baseNormal, maxAngle, numSubdiv);
-vtkWrite(debug, 'patient502kagglefine/debug3.vtk');
+vtkWrite(debug,  [output_folder 'debug3.vtk']);
 
 %% Remove bridges
 %keyboard
@@ -60,23 +57,22 @@ vtkWrite(debug, 'patient502kagglefine/debug3.vtk');
 %vtkWrite(debug, 'patient502kagglefine/debug5.vtk');
 
 %% Write result
-vtkWrite(sur, 'patient502kagglefine/test_clipping_patient502_sur.vtk');
-vtkWrite(sur, 'patient502kagglefine/test_clipping_patient502_sur.vtp');
-vtkWrite(vol, 'patient502kagglefine/test_clipping_patient502_vol.vtk');
-vtkWrite(vol, 'patient502kagglefine/test_clipping_patient502_vol.vtu');
+vtkWrite(sur,  [output_folder 'patient503kaggleclipped_sur.vtk']);
+vtkWrite(sur,  [output_folder 'patient503kaggleclipped_sur.vtp']);
+vtkWrite(vol,  [output_folder 'patient503kaggleclipped_vol.vtk']);
+vtkWrite(vol,  [output_folder 'patient503kaggleclipped_vol.vtu']);
 
- outName = 'patient502kagglefine/patient502kagglefine';                   + '_' + target_resolution + '/' + anatomy_subject_name + '_'
-                   + target_resolution + '_xyz.csv', unproces
- lv = vtkThreshold(sur, 'points', 'class', [3 3]);                   + '_' + target_resolution + '/' + anatomy_subject_name + '_'
-                   + target_resolution + '_xyz.csv', unproces
- lv = vtkDataSetSurfaceFilter(lv);
- vtkWrite(lv, [outName '_endo_lv.ply']);
- rv = vtkThreshold(sur, 'points', 'class', [4 4]);
- rv = vtkDataSetSurfaceFilter(rv);
- vtkWrite(rv, [outName '_endo_rv.ply']);
- epi = vtkThreshold(sur, 'points', 'class', [2 2]);
- epi = vtkDataSetSurfaceFilter(epi);
- vtkWrite(epi, [outName '_epi.ply']);
- base = vtkThreshold(sur, 'points', 'class', [1 1]);
- base = vtkDataSetSurfaceFilter(base);
- vtkWrite(base, [outName '_base.ply']);
+%% export surfaces
+outName = 'patient503kagglefine';
+lv = vtkThreshold(sur, 'points', 'class', [3 3]);
+lv = vtkDataSetSurfaceFilter(lv);
+vtkWrite(lv, [output_folder outName '_endo_lv.ply']);
+rv = vtkThreshold(sur, 'points', 'class', [4 4]);
+rv = vtkDataSetSurfaceFilter(rv);
+vtkWrite(rv, [output_folder outName '_endo_rv.ply']);
+epi = vtkThreshold(sur, 'points', 'class', [2 2]);
+epi = vtkDataSetSurfaceFilter(epi);
+vtkWrite(epi, [output_folder outName '_epi.ply']);
+base = vtkThreshold(sur, 'points', 'class', [1 1]);
+base = vtkDataSetSurfaceFilter(base);
+vtkWrite(base, [output_folder outName '_base.ply']);
