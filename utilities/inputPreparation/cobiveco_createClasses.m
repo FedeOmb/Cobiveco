@@ -28,7 +28,8 @@ function [sur,debug] = cobiveco_createClasses(sur, baseNormal, maxAngle, numSubd
     
     base = vtkConnectivityFilter(vtkThreshold(s, 'cells', 'base', [1 inf]));
     num_unique_base = numel(unique(base.pointData.RegionId))
-
+    
+    idsUnknown = [];
     if numel(unique(base.pointData.RegionId)) > 1
         rid = mode(base.pointData.RegionId);
         idsUnknown = base.pointData.ids(base.pointData.RegionId ~= rid);
