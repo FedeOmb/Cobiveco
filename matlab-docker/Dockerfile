@@ -84,9 +84,8 @@ RUN wget -q https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.s
     && bash /tmp/miniconda.sh -b -p ${CONDA_DIR} \
     && rm /tmp/miniconda.sh \
     && ${CONDA_DIR}/bin/conda init bash \
-    && ${CONDA_DIR}/bin/conda clean -afy
-
-RUN ${CONDA_DIR}/bin/conda env create -f /home/matlab/cobiveco/requirements.txt -n cobiveco -y \
+    && ${CONDA_DIR}/bin/conda config --add channels conda-forge \
+    && ${CONDA_DIR}/bin/conda env create -f /home/matlab/cobiveco/requirements.txt -n cobiveco -y \
     && ${CONDA_DIR}/bin/conda clean -afy
 
 #patch conda path in code
