@@ -26,6 +26,7 @@ ARG ADDITIONAL_APT_PACKAGES
 ENV CONDA_DIR=/home/matlab/miniconda3
 ENV PARAVIEW_DIR=/home/matlab/paraview
 ENV PATH=${CONDA_DIR}/bin:${CONDA_DIR}/condabin:${PARAVIEW_DIR}/bin:$PATH
+ENV CONDA_PLUGINS_AUTO_ACCEPT_TOS=true
 
 # By default, the MATLAB container runs as user "matlab". To install mpm dependencies, switch to root.
 USER root
