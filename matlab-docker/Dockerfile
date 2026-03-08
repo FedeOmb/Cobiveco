@@ -70,6 +70,7 @@ RUN git clone -b digitaltwintest2 --single-branch https://github.com/FedeOmb/Cob
 WORKDIR /home/matlab/cobiveco/dependencies
 RUN chmod +x install_cobiveco_docker.sh && bash install_cobiveco_docker.sh
 
+WORKDIR /home/matlab
 #download paraview e link pvpython
 RUN mkdir -p ${PARAVIEW_DIR} \
     && wget -O /tmp/paraview.tar.gz "https://www.paraview.org/paraview-downloads/download.php?submit=Download&version=v6.1&type=binary&os=Linux&downloadFile=ParaView-6.1.0-RC1-MPI-Linux-Python3.12-x86_64.tar.gz" \
@@ -85,7 +86,7 @@ RUN wget -q https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.s
     && ${CONDA_DIR}/bin/conda init bash \
     && ${CONDA_DIR}/bin/conda clean -afy
 
-RUN ${CONDA_DIR}/bin/conda env create -f /opt/cobiveco/requirements.txt -n cobiveco -y \
+RUN ${CONDA_DIR}/bin/conda env create -f /home/matlab/cobiveco/requirements.txt -n cobiveco -y \
     && ${CONDA_DIR}/bin/conda clean -afy
 
 #patch conda path in code
@@ -93,7 +94,6 @@ RUN sed -i \
     "s|condaPath = '/home/federico/miniconda3/condabin/conda'|condaPath = '${CONDA_DIR}/condabin/conda'|g" \
     /home/matlab/cobiveco/functions/createBoundarySurfacesAB.m
 
-RUN chown -R matlab:matlab /home/matlab/cobiveco /opt/paraview ${CONDA_DIR}
 # When running the container a license file can be mounted,
 # or a license server can be provided as an environment variable.
 # For more information, see https://hub.docker.com/r/mathworks/matlab
