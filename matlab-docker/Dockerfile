@@ -64,7 +64,7 @@ RUN wget -q https://www.mathworks.com/mpm/glnxa64/mpm \
 
 # Install cobiveco and dependencies from forked repository
 WORKDIR /home/matlab
-RUN git clone https://github.com/FedeOmb/Cobiveco.git /home/matlab/cobiveco
+RUN git clone -b digitaltwintest2 --single-branch https://github.com/FedeOmb/Cobiveco.git /home/matlab/cobiveco
 
 WORKDIR /home/matlab/cobiveco/dependencies
 RUN chmod +x install_cobiveco_docker.sh && bash install_cobiveco_docker.sh
