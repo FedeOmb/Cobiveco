@@ -29,9 +29,10 @@ for i = 1:numel(cases)
     fprintf('========== [%d/%d] %s ==========\n', i, numel(cases), caseName);
 
     try
-        fprintf('  -> Esecuzione script inputPreparation...\n');
-        inputPreparationSB(caseName); 
-
+        %fprintf('  -> Esecuzione script inputPreparation...\n');
+        %inputPreparationSBv2(caseName); 
+        createClassesClippedMesh(caseName);
+        
         fprintf('  -> Esecuzione script computeCobiveco...\n');
         computeCobivecoSB(caseName);
 

@@ -1,4 +1,4 @@
-function [sur,debug] = cobiveco_createClasses(sur, baseNormal, baseOrigin, maxAngle, numSubdiv)
+function [sur,debug] = cobiveco_createClasses(sur, baseNormal, maxAngle, numSubdiv)
 
     if nargin < 4 || isempty(numSubdiv)
         numSubdiv = 0;
@@ -23,9 +23,7 @@ function [sur,debug] = cobiveco_createClasses(sur, baseNormal, baseOrigin, maxAn
     % Define max angle between normal and faces
     % max ANgle manually defined as input argument
     % point has to be above center 
-    %s.cellData.base = double(s.cellData.angle < maxAngle & s.cellData.centerDist < 0);
-    distFromCut = (centroids.points-baseOrigin)*baseNormal';
-    s.cellData.base = double(s.cellData.angle < maxAngle & s.cellData.centerDist < 0 & abs(distFromCut) < 20);
+    s.cellData.base = double(s.cellData.angle < maxAngle & s.cellData.centerDist < 0);
     s.pointData.ids = int32(1:size(s.points,1))';
     
     base = vtkConnectivityFilter(vtkThreshold(s, 'cells', 'base', [1 inf]));

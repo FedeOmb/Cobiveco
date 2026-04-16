@@ -2,11 +2,13 @@ function [vol,mmgOutput] = cobiveco_clipBase(vol, baseNormal, baseOrigin)
 %vol_in = vol;
 baseHeight = baseOrigin(:)'*baseNormal(:);
 height = vol.points*baseNormal(:)-baseHeight;
-
 %keyboard;
+%fprintf("in script cobiveco_clipBase\n")
+meanEdgLen = mean(vtkEdgeLengths(vol))
 
-meanEdgLen = mean(vtkEdgeLengths(vol));
-mmgSizingParam = [0.1 0.9 1.1];
+%mmgSizingParam = [0.1 0.9 1.1]; %hausd - hmin - hmax
+%hmin 0.9 troppo restrittivo per mesh non buone
+mmgSizingParam = [0.1 0.3 1.1];
 
 isovalue = 0;
 numTries = 5;

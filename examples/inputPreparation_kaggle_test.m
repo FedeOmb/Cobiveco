@@ -5,11 +5,11 @@ addpath('../functions');
 
 clear all;
 
-input_folder = ['patient503kagglefine_inputprep' '/'];
+input_folder = ['503kaggle1500_input' '/'];
 output_folder = input_folder;
 
 %% Read original mesh
-vol = vtkRead([input_folder 'patient503kagglefine.vtk']);
+vol = vtkRead([input_folder '503kaggle1500cm.vtk']);
 
 %% Estimate the normal vector and the origin of a basal plane
 sur = vtkDataSetSurfaceFilter(vol);
@@ -57,13 +57,13 @@ vtkWrite(debug,  [output_folder 'debug3.vtk']);
 %vtkWrite(debug, 'patient502kagglefine/debug5.vtk');
 
 %% Write result
-vtkWrite(sur,  [output_folder 'patient503kaggleclipped_sur.vtk']);
-vtkWrite(sur,  [output_folder 'patient503kaggleclipped_sur.vtp']);
-vtkWrite(vol,  [output_folder 'patient503kaggleclipped_vol.vtk']);
-vtkWrite(vol,  [output_folder 'patient503kaggleclipped_vol.vtu']);
+vtkWrite(sur,  [output_folder '503kaggleclipped_sur.vtk']);
+vtkWrite(sur,  [output_folder '503kaggleclipped_sur.vtp']);
+vtkWrite(vol,  [output_folder '503kaggleclipped_vol.vtk']);
+vtkWrite(vol,  [output_folder '503kaggleclipped_vol.vtu']);
 
 %% export surfaces
-outName = 'patient503kagglefine';
+outName = '503kaggle1500';
 lv = vtkThreshold(sur, 'points', 'class', [3 3]);
 lv = vtkDataSetSurfaceFilter(lv);
 vtkWrite(lv, [output_folder outName '_endo_lv.ply']);
