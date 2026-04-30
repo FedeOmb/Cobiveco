@@ -20,8 +20,8 @@ fprintf('utilizzo baseNormal e baseOrigin già stimati...');
 %baseShift = -7;
 %baseShift = -15;
 %baseOrigin = baseOrigin + baseShift*baseNormal;
-baseNormal = [0.58 -0.37 -0.71]
-baseOrigin = [32.13 -62.16 -36.20]
+%baseNormal = [0.58 -0.37 -0.71]
+%baseOrigin = [32.13 -62.16 -36.20]
 %% Clip mesh at the basal plane
 %fprintf('Clipping mesh alla base...');
 %vol = cobiveco_clipBase(vol, baseNormal, baseOrigin);
@@ -56,18 +56,3 @@ vtkWrite(sur,  [input_folder case_name 'clipped_sur.vtk']);
 vtkWrite(sur,  [output_folder case_name '.vtp']);
 vtkWrite(vol,  [input_folder case_name 'clipped_vol.vtk']);
 vtkWrite(vol,  [output_folder case_name '.vtu']);
-
-%% export surfaces
-% outName = case_name;
-% lv = vtkThreshold(sur, 'points', 'class', [3 3]);
-% lv = vtkDataSetSurfaceFilter(lv);
-% vtkWrite(lv, [output_folder outName '_endo_lv.ply']);
-% rv = vtkThreshold(sur, 'points', 'class', [4 4]);
-% rv = vtkDataSetSurfaceFilter(rv);
-% vtkWrite(rv, [output_folder outName '_endo_rv.ply']);
-% epi = vtkThreshold(sur, 'points', 'class', [2 2]);
-% epi = vtkDataSetSurfaceFilter(epi);
-% vtkWrite(epi, [output_folder outName '_epi.ply']);
-% base = vtkThreshold(sur, 'points', 'class', [1 1]);
-% base = vtkDataSetSurfaceFilter(base);
-% vtkWrite(base, [output_folder outName '_base.ply']);
