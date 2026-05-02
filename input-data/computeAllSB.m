@@ -30,15 +30,18 @@ for i = 1:numel(cases)
 
     try
         fprintf('  -> Esecuzione script inputPreparation...\n');
-        inputPreparationSB(caseName); 
+        [baseNormal, baseOrigin] = inputPreparationSBv3_autobase(caseName);
+        fprintf('estimated baseNormal= %s , estimated baseOrigin= %s\n', baseNormal, baseOrigin);
 
+        %createClassesClippedMesh(caseName);
+        
         fprintf('  -> Esecuzione script computeCobiveco...\n');
         computeCobivecoSB(caseName);
 
         fprintf('  -> Esecuzione script computeFibers...\n');
-        computeFibersSB(caseName);        
+        computeFibersSB(caseName);
 
-        fprintf('  -> CASO COMPLETATO\n\n');
+        fprintf('  -> ESECUZIONE COMPLETATA caso %s \n\n', caseName);
     catch ME
         % Logga l'errore e continua con il caso successivo
         fprintf('  -> ERRORE su %s: %s\n\n', caseName, ME.message);

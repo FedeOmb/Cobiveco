@@ -1,10 +1,10 @@
 function computeFibersSB(case_name)
 
 %addpath('./LDRB_Fibers/functions');
-
 input_folder = [case_name '_resCobiveco' '/'];
-input_prefix = case_name;
+resCobivecoName = [case_name '_resCobiveco'];
 output_folder = [case_name '_resFibers' '/'];
+copyfile([case_name '/' case_name '.vtp'], input_folder);
 
 if ~exist(output_folder,'dir'), mkdir(output_folder); end
 
@@ -14,13 +14,11 @@ alphaEpi  = -60;
 betaEndo  = 0;
 betaEpi   = 0;
 
-
-
 clear cfg;
 cfg.sourceDir = input_folder;
 cfg.targetPrefix = [ output_folder case_name '_fibers'];
 cfg.onlyOneVentricle = false;
-cfg.volName = case_name;
+cfg.volName = resCobivecoName;
 cfg.surNames = {case_name};
 cfg.alphaSeptLeft  = alphaEndo;
 cfg.alphaSeptRight = alphaEndo;
