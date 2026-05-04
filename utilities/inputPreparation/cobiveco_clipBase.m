@@ -8,12 +8,18 @@ meanEdgLen = mean(vtkEdgeLengths(vol))
 
 %mmgSizingParam = [0.1 0.9 1.1]; %hausd - hmin - hmax
 %hmin 0.9 troppo restrittivo per mesh non buone
-mmgSizingParam = [0.1 0.3 1.1];
+%mmgSizingParam = [0.1 0.8 1.1];
+% parametri modificati: [hausd, hmin, hsiz]
+% hsiz a 1.0 per forzare MMG a puntare alla risoluzione media originale
+mmgSizingParam = [0.1 0.5 1.0];
 
 isovalue = 0;
 numTries = 5;
 for i = 1:numTries
-    [vol,mmgStatus,mmgOutput] = mmg(vol, height, sprintf('-ls %1.5e -nr -hausd %1.5e -hmin %1.5e -hmax %1.5e', isovalue, mmgSizingParam(:)'*meanEdgLen));
+    %comando originale con hmax
+    %[vol,mmgStatus,mmgOutput] = mmg(vol, height, sprintf('-ls %1.5e -nr -hausd %1.5e -hmin %1.5e -hmax %1.5e', isovalue, mmgSizingParam(:)'*meanEdgLen));
+    [vol,mmgStatus,mmgOutput] = mmg(vol, height, sprintf('-ls %1.5e -nr -hausd %1.5e -hmin %1.5e -hsiz %1.5e', isovalue, mmgSizingParam(:)'*meanEdgLen));
+
     %keyboard
     if mmgStatus == 0
         break;
