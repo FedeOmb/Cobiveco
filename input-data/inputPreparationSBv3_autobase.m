@@ -7,7 +7,7 @@ if ~exist(output_folder,'dir'), mkdir(output_folder); end
 
 %% Read original mesh
 vol = vtkRead([input_folder case_name '.vtk']);
-disp(fieldnames(vol))
+%disp(fieldnames(vol))
 %% Estimate the normal vector and the origin of a basal plane
 fprintf('Stima Base Normal sulla mesh...');
 sur = vtkDataSetSurfaceFilter(vol);
@@ -30,7 +30,7 @@ mmg_exe = sprintf('%s/../dependencies/mmg/build/bin/mmg3d_O3', mpath);
 [mmgStatus, mmgOut] = system(sprintf('"%s" %s %s -optim', ...
      mmg_exe, tmpMesh, tmpMesh));
 
-fprintf('mmg output:\n%s\n', mmgOut);
+%fprintf('mmg output:\n%s\n', mmgOut);
 
 if mmgStatus == 0
     vol = mmgReadMesh(tmpMesh);
