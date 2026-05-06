@@ -16,6 +16,8 @@ ARG ADDITIONAL_APT_PACKAGES="git build-essential cmake ninja-build libvtk9-dev p
 # ARG OPENCARP_BINARY=opencarp-v18.1.deb
 # ARG OPENCARP_DL_LINK=https://git.opencarp.org/api/v4/projects/16/packages/generic/opencarp-linux/v18.1/${OPENCARP_BINARY}
 ARG PARAVIEW_DL_LINK="https://www.paraview.org/paraview-downloads/download.php?submit=Download&version=v6.1&type=binary&os=Linux&downloadFile=ParaView-6.1.0-MPI-Linux-Python3.12-x86_64.tar.gz"
+ARG HOST_UID=1000
+ARG HOST_GID=1000
 # This Dockerfile builds on the Ubuntu-based mathworks/matlab image.
 # To check the available matlab images, see: https://hub.docker.com/r/mathworks/matlab
 FROM mathworks/matlab:$MATLAB_RELEASE
@@ -28,6 +30,8 @@ ARG ADDITIONAL_APT_PACKAGES
 # ARG OPENCARP_BINARY
 # ARG OPENCARP_DL_LINK
 ARG PARAVIEW_DL_LINK
+ARG HOST_UID=1000
+ARG HOST_GID=1000
 
 ENV CONDA_DIR=/home/matlab/miniconda3
 ENV PARAVIEW_DIR=/home/matlab/paraview
@@ -61,6 +65,11 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 # Modify it by setting the ADDITIONAL_PRODUCTS defined above,
 # e.g. ADDITIONAL_PRODUCTS="Statistics_and_Machine_Learning_Toolbox Parallel_Computing_Toolbox MATLAB_Coder".
 # If mpm fails to install successfully then output the logfile to the terminal, otherwise cleanup.
+
+# allineamento uid user con macchina host
+RUN usermod -u ${HOST_UID} matlab && \
+    groupmod -g ${HOST_GID} matlab && \
+    find /home/matlab -user 1001 -exec chown -h ${HOST_UID} {} \; 2>/dev/null || true
 
 # Switch to user matlab, and pass in $HOME variable to mpm,
 # so that mpm can set the correct root folder for the support packages.
