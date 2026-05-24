@@ -31,7 +31,7 @@ for i = 1:numel(cases)
     try
         fprintf('  -> Esecuzione script inputPreparation...\n');
         [baseNormal, baseOrigin] = inputPreparationSBv3_autobase(caseName);
-        fprintf('estimated baseNormal= %s , estimated baseOrigin= %s\n', baseNormal, baseOrigin);
+        fprintf('estimated baseNormal= [%s] , estimated baseOrigin= [%s]\n', num2str(baseNormal'), num2str(baseOrigin'));
 
         %createClassesClippedMesh(caseName);
         

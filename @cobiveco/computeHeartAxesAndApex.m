@@ -104,11 +104,9 @@ leftRightAx = leftRightAx - leftRightAx*(longAx'*longAx);
 
 % antPostAx: vector pointing from anterior to posterior,
 antPostAx = cross(longAx, leftRightAx);
-if o.cfg.CobivecoX == true
-    o.antPostAx = antPostAx;
-    o.longAx = longAx;
-    o.leftRightAx = leftRightAx;
-end
+o.antPostAx = antPostAx;
+o.longAx = longAx;
+o.leftRightAx = leftRightAx;
 
 % center: global center point,
 % determined by projecting lvCenter onto the truncated septal surface

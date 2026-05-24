@@ -10,7 +10,7 @@ diary(fullfile(output_folder,'log.txt'));
 diary on;
 
 % Create a cobiveco object, providing a config struct with input and output path prefixes
-c = cobiveco(struct('inPrefix',[input_folder input_prefix], 'outPrefix', output_folder, 'exportLevel',3));
+c = cobiveco(struct('inPrefix',[input_folder input_prefix], 'outPrefix', output_folder, 'exportLevel',3, 'tol',1e-6,'maxit', 5000));
 
 % Run computation of all coordinates
 c.prepareMesh0;

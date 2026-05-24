@@ -45,8 +45,8 @@ end
 fprintf('Creazione classi superfici...');
 sur = vtkDataSetSurfaceFilter(vol);
 
-maxAngle = 40; % max angle of face normals wrt baseNormal for defining the base class
-numSubdiv = 0;
+maxAngle = 50; % max angle of face normals wrt baseNormal for defining the base class
+numSubdiv = 1;
 [sur,debug] = cobiveco_createClasses(sur, baseNormal, baseOrigin, maxAngle, numSubdiv);
 vtkWrite(debug,  [input_folder 'debug5_defclasses.vtk']);
 

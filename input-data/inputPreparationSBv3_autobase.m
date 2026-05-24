@@ -1,4 +1,4 @@
-function[baseNormal, baseOrigin] = inputPreparationSBv2_givenbase(case_name)
+function[baseNormal, baseOrigin] = inputPreparationSBv3_autobase(case_name)
 
 input_folder = [case_name '_input' '/'];
 output_folder = [case_name '/'];
