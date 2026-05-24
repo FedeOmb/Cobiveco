@@ -38,6 +38,9 @@ for i = 1:numel(cases)
         fprintf('  -> Esecuzione script computeCobiveco...\n');
         computeCobivecoSB(caseNameCoarse);
 
+        fprintf('  -> Esecuzione script computeProjectiveCoordinates...\n');
+        computeProjectiveCoordinates(caseNameCoarse);
+
         fprintf('  -> Esecuzione script computeFibers...\n');
         computeFibersSB(caseNameCoarse);
 
@@ -95,6 +98,9 @@ for i = 1:numel(cases)
         fprintf('  -> Esecuzione script computeCobiveco...\n');
         computeCobivecoSB(caseNameFine);
 
+        fprintf('  -> Esecuzione script computeProjectiveCoordinates...\n');
+        computeProjectiveCoordinates(caseNameFine);
+
         fprintf('  -> Esecuzione script computeFibers...\n');
         computeFibersSB(caseNameFine);
 
@@ -104,5 +110,3 @@ for i = 1:numel(cases)
         fprintf('  -> ERRORE su %s: %s\n\n', caseName, ME.message);
     end    
 end
-
-
