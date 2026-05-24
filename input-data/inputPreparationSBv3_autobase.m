@@ -7,7 +7,7 @@ if ~exist(output_folder,'dir'), mkdir(output_folder); end
 
 %% Read original mesh
 vol = vtkRead([input_folder case_name '.vtk']);
-disp(fieldnames(vol))
+%disp(fieldnames(vol))
 %% Estimate the normal vector and the origin of a basal plane
 fprintf('Stima Base Normal sulla mesh...');
 sur = vtkDataSetSurfaceFilter(vol);
@@ -16,28 +16,30 @@ sur = vtkDataSetSurfaceFilter(vol);
 vtkWrite(debug, [input_folder 'debug1.vtk']);
 
 meanEdgLen = mean(vtkEdgeLengths(vol));
-fprintf('Pre-processing mesh con mmg -optim...\n');
+%fprintf('Pre-processing mesh con mmg -optim...\n');
 
 % Scrivi solo il mesh file (niente sol)
-tmpMesh = [tempname '.mesh'];
-mmgWriteMesh(vol, tmpMesh);
+%tmpMesh = [tempname '.mesh'];
+%mmgWriteMesh(vol, tmpMesh);
 
 % Percorso eseguibile mmg (stesso usato dal wrapper)
-mpath = fileparts(mfilename('fullpath'));
-mmg_exe = sprintf('%s/../dependencies/mmg/build/bin/mmg3d_O3', mpath);
+%mpath = fileparts(mfilename('fullpath'));
+%mmg_exe = sprintf('%s/../dependencies/mmg/build/bin/mmg3d_O3', mpath);
 
-% Chiama mmg con -optim e SENZA -sol
-[mmgStatus, mmgOut] = system(sprintf('"%s" %s %s -optim', ...
-     mmg_exe, tmpMesh, tmpMesh));
+% Chiama mmg con -optim e vincoli di dimensione per preservare la risoluzione originale
+% Aggiunto -hsiz pari a meanEdgLen per mantenere la dimensione media originale
+% Aggiunto -hausd 0.2 per evitare iper-raffinamenti dovuti a curvature superficiali
+%[mmgStatus, mmgOut] = system(sprintf('"%s" %s %s -optim -hsiz %1.5e -hausd 0.2', ...
+%     mmg_exe, tmpMesh, tmpMesh, meanEdgLen));
 
-fprintf('mmg output:\n%s\n', mmgOut);
+%fprintf('mmg output:\n%s\n', mmgOut);
 
-if mmgStatus == 0
-    vol = mmgReadMesh(tmpMesh);
-    fprintf('Pre-processing con -optim completato.\n');
-else
-    warning('mmg -optim fallito (status %i). Proseguo con mesh originale.', mmgStatus);
-end
+%if mmgStatus == 0
+%    vol = mmgReadMesh(tmpMesh);
+%    fprintf('Pre-processing con -optim completato.\n');
+%else
+%    warning('mmg -optim fallito (status %i). Proseguo con mesh originale.', mmgStatus);
+%end
 
 %% Adjust baseNormal and baseOrigin, if needed
 
