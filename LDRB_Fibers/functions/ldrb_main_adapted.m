@@ -368,6 +368,7 @@ end
 if cfg.exportFinalResult
     fprintf('Exporting result...                         '); tic;
     vtkWrite(vol, sprintf('%s.vtu', cfg.targetPrefix));
+    vtkWrite(vol, sprintf('%s.vtk', cfg.targetPrefix));
     fprintf('%.1f seconds\n', toc);
 end
 

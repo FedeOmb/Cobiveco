@@ -10,7 +10,7 @@ diary(fullfile(output_folder,'log.txt'));
 diary on;
 
 % Create a cobiveco object, providing a config struct with input and output path prefixes
-c = cobiveco(struct('inPrefix',[input_folder input_prefix], 'outPrefix', output_folder, 'exportLevel',2));
+c = cobiveco(struct('inPrefix',[input_folder input_prefix], 'outPrefix', output_folder, 'exportLevel',3));
 
 % Run computation of all coordinates
 c.prepareMesh0;
@@ -23,7 +23,7 @@ end
 % Optional: Retrieve the result and a config struct with all parameters
 result = c.result;
 config = c.cfg;
-
+movefile([output_folder 'result.vtu'], [output_folder case_name '_resCobiveco.vtu'])
 % % aggiunge le classi di superficie come pointData nella mesh finale
 % if isfield(c,'m0') && isfield(c.m0,'surToVol') && isfield(c.m0,'sur') && isfield(c.m0.sur.pointData,'class')
 %     cls = uint8(zeros(size(result.points,1),1));

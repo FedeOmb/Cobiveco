@@ -21,8 +21,8 @@ for k = 1:5
     end
     baseNormal = computeLongAxis(axSur, baseNormal);
     sur.pointData.height = double(sur.points*baseNormal');
-    
-    p = 50; % initial percentile value used for thresholding
+    % default p=50;
+    p = 50 % initial percentile value used for thresholding
     for i = 1:5
         tSur = vtkConnectivityFilter(vtkThreshold(sur, 'points', 'height', [prctile(sur.pointData.height,p) inf]));
         if numel(unique(tSur.pointData.RegionId)) < 3
