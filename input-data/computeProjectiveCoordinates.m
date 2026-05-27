@@ -28,15 +28,15 @@ function computeProjectiveCoordinates(case_name)
     % Estrai i punti della mesh
     points = double(mesh.points);
 
-    % Calcola e normalizza rvlv (da destra a sinistra)
-    proj_rl = points * (-leftRightAx)';
-    mesh.pointData.rvlv = single((proj_rl - min(proj_rl)) / (max(proj_rl) - min(proj_rl)));
+    % Calcola e normalizza lvrv (da sinistra 0 a destra 1)
+    proj_rl = points * (leftRightAx)';
+    mesh.pointData.lvrv = single((proj_rl - min(proj_rl)) / (max(proj_rl) - min(proj_rl)));
 
-    % Calcola e normalizza aprt (da anteriore a posteriore)
-    proj_ap = points * antPostAx';
+    % Calcola e normalizza aprt (da posteriore 0 ad anteriore 1)
+    proj_ap = points * (-antPostAx)';
     mesh.pointData.aprt = single((proj_ap - min(proj_ap)) / (max(proj_ap) - min(proj_ap)));
 
     % Sovrascrivi il file mesh aggiungendo i nuovi pointData
     vtkWrite(mesh, mesh_file);
-    fprintf('  -> Coordinate proiettive (rvlv, aprt) salvate con successo.\n');
+    fprintf('  -> Coordinate proiettive (lvrv, aprt) salvate con successo nella mesh\n');
 end
