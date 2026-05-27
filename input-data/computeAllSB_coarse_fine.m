@@ -1,13 +1,22 @@
 clear all;
 
 configFile = './config.txt';
+repoDir = '/home/matlab/cobiveco';
+depsDir = getenv('COBIVECO_DEPS_DIR');
+if isempty(depsDir)
+    depsDir = '../dependencies';
+end
+if isfolder(depsDir)
+    addpath(genpath(depsDir));
+else
+    error('Directory dipendenze non trovata: %s', depsDir);
+end
 
-addpath(genpath('../dependencies'));
-addpath('../utilities');
-addpath('../utilities/inputPreparation');
-addpath('../functions');
-addpath('../LDRB_Fibers/functions');
-addpath('..');
+addpath(fullfile(repoDir, 'utilities'));
+addpath(fullfile(repoDir, 'utilities', 'inputPreparation'));
+addpath(fullfile(repoDir, 'functions'));
+addpath(fullfile(repoDir, 'LDRB_Fibers', 'functions'));
+addpath(fullfile(repoDir));
 
 
 %Legge file configurazione con elenco casi
@@ -67,7 +76,7 @@ for i = 1:numel(cases)
         mmgWriteMesh(vol, tmpMesh); % 'vol'
 
         mpath = fileparts(mfilename('fullpath'));
-        mmg_exe = sprintf('%s/../dependencies/mmg/build/bin/mmg3d_O3', mpath);
+        mmg_exe = sprintf('%s/mmg/build/bin/mmg3d_O3', depsDir);
 
         % 3. Parametri per forzare l'edge length a 0.5 mm
         % -hsiz : dimensione media edge lenght

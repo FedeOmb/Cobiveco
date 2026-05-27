@@ -13,6 +13,8 @@ ARG FONTS_PACKAGES="fonts-vlgothic ibus-mozc"
 # Specify the extra Ubuntu APT packages to install into the image.
 ARG ADDITIONAL_APT_PACKAGES="git build-essential cmake ninja-build libvtk9-dev python3 python3-venv python3-pip libglu1-mesa libxrender1 libxext6 libsm6" 
 
+# ARG OPENCARP_BINARY=opencarp-v18.1.deb
+# ARG OPENCARP_DL_LINK=https://git.opencarp.org/api/v4/projects/16/packages/generic/opencarp-linux/v18.1/${OPENCARP_BINARY}
 ARG PARAVIEW_DL_LINK="https://www.paraview.org/paraview-downloads/download.php?submit=Download&version=v6.1&type=binary&os=Linux&downloadFile=ParaView-6.1.0-MPI-Linux-Python3.12-x86_64.tar.gz"
 ARG HOST_UID=1000
 ARG HOST_GID=1000
@@ -25,6 +27,8 @@ ARG MATLAB_RELEASE
 ARG ADDITIONAL_PRODUCTS
 ARG FONTS_PACKAGES
 ARG ADDITIONAL_APT_PACKAGES
+# ARG OPENCARP_BINARY
+# ARG OPENCARP_DL_LINK
 ARG PARAVIEW_DL_LINK
 ARG HOST_UID=1000
 ARG HOST_GID=1000
@@ -33,8 +37,6 @@ ENV CONDA_DIR=/home/matlab/miniconda3
 ENV PARAVIEW_DIR=/home/matlab/paraview
 ENV PATH=${CONDA_DIR}/bin:${CONDA_DIR}/condabin:${PARAVIEW_DIR}/bin:$PATH
 ENV CONDA_PLUGINS_AUTO_ACCEPT_TOS=true
-ENV COBIVECO_DEPS_DIR=/home/matlab/cobiveco-deps
-
 
 # By default, the MATLAB container runs as user "matlab". To install mpm dependencies, switch to root.
 USER root
@@ -50,6 +52,13 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get clean \
     && apt-get autoremove \
     && rm -rf /var/lib/apt/lists/*
+
+#download e installazione opencarp
+# RUN wget -q ${OPENCARP_DL_LINK} \
+#     && apt-get clean && apt-get update \
+#     && apt-get install -y ./${OPENCARP_BINARY} \
+#     && rm ${OPENCARP_BINARY} \
+#     && rm -rf /var/lib/apt/lists/*
     
 # Run mpm to install MathWorks products into the existing MATLAB installation directory,
 # and delete the mpm installation afterwards.
@@ -79,10 +88,9 @@ RUN wget -q https://www.mathworks.com/mpm/glnxa64/mpm \
 
 # Install cobiveco and dependencies from forked repository
 WORKDIR /home/matlab
-#RUN git clone -b digitaltwin2-cobiveco-ldrb --single-branch https://github.com/FedeOmb/Cobiveco.git /home/matlab/cobiveco
-RUN mkdir -p ${COBIVECO_DEPS_DIR}
-WORKDIR ${COBIVECO_DEPS_DIR}
-COPY --chown=matlab:matlab install_cobiveco_docker.sh .
+RUN git clone -b digitaltwin2-cobiveco-ldrb --single-branch https://github.com/FedeOmb/Cobiveco.git /home/matlab/cobiveco
+
+WORKDIR /home/matlab/cobiveco/dependencies
 RUN chmod +x install_cobiveco_docker.sh && bash install_cobiveco_docker.sh
 
 WORKDIR /home/matlab
@@ -93,20 +101,20 @@ RUN mkdir -p ${PARAVIEW_DIR} \
     && rm /tmp/paraview.tar.gz
 
 #install miniconda and create a virtual environment for cobiveco
-COPY requirements.txt /tmp/cobiveco-requirements.txt
+
 RUN wget -q https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
         -O /tmp/miniconda.sh \
     && bash /tmp/miniconda.sh -b -p ${CONDA_DIR} \
     && rm /tmp/miniconda.sh \
     && ${CONDA_DIR}/bin/conda init bash \
     && ${CONDA_DIR}/bin/conda config --add channels conda-forge \
-    && ${CONDA_DIR}/bin/conda env create -f /tmp/cobiveco-requirements.txt -n cobiveco -y \
+    && ${CONDA_DIR}/bin/conda env create -f /home/matlab/cobiveco/requirements.txt -n cobiveco -y \
     && ${CONDA_DIR}/bin/conda clean -afy
 
 #patch conda path in code
-# RUN sed -i \
-#     "s|condaPath = '/home/federico/miniconda3/condabin/conda'|condaPath = '${CONDA_DIR}/condabin/conda'|g" \
-#     /home/matlab/cobiveco/functions/createBoundarySurfacesAB.m
+RUN sed -i \
+    "s|condaPath = '/home/federico/miniconda3/condabin/conda'|condaPath = '${CONDA_DIR}/condabin/conda'|g" \
+    /home/matlab/cobiveco/functions/createBoundarySurfacesAB.m
 
 # When running the container a license file can be mounted,
 # or a license server can be provided as an environment variable.

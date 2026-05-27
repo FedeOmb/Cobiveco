@@ -5,6 +5,10 @@ function [mesh,status,cmdout] = mmg(mesh, sol, paramString)
 % Uses mmg meshing Software 
 % (for more infos, see https://www.mmgtools.org/)
 
+depsDir = getenv('COBIVECO_DEPS_DIR');
+if isempty(depsDir)
+    depsDir = '../dependencies';
+end
 
 [tmpdir,name] = fileparts(tempname);
 meshfile = sprintf('%s/%s.mesh', tmpdir, name);
@@ -15,12 +19,13 @@ mmgWriteSol(sol, solfile);
 %type(meshfile)
 %type(solfile)
 mpath = fileparts(mfilename('fullpath'));
-mmg_executable_path = sprintf('%s/../dependencies/mmg/build/bin/mmg3d_O3', mpath);
+%mmg_executable_path = sprintf('%s/../dependencies/mmg/build/bin/mmg3d_O3', mpath);
+mmg_executable_path = sprintf('%s/mmg/build/bin/mmg3d_O3', depsDir);
 cmd = sprintf('"%s" %s %s -sol %s %s', mmg_executable_path, meshfile, meshfile, solfile, paramString);
 fprintf("Running mmg with command: %s \n", cmd);
 [status,cmdout] = system(cmd);
-fprintf("mmg output: %s\n", cmdout);
-fprintf("mmg status: %d\n", status);
+%fprintf("mmg output: %s\n", cmdout);
+%fprintf("mmg status: %d\n", status);
 mesh = struct();
 if status==0
     mesh = mmgReadMesh(meshfile);

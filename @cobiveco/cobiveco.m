@@ -398,39 +398,42 @@ classdef cobiveco < handle
             
             % start timer
             tic;
-            
+            depsDir = getenv('COBIVECO_DEPS_DIR');
+            if isempty(depsDir)
+                depsDir = '../dependencies';
+            end
             % set up paths
             mpath = fileparts(mfilename('fullpath'));
             addpath([mpath '/../functions']);
             addpath('../utilities');
             addpath('../utilities/inputPreparation');
             if ispc
-                if ~exist([mpath '/../dependencies/mmg/build/bin/mmg3d_O3.exe'], 'file')
+                if ~exist([depsDir '/mmg/build/bin/mmg3d_O3.exe'], 'file')
                     error('Dependency ''mmg'' not found. Run dependencies/install_cobiveco.sh to install.');
                 end
             else
-                if ~exist([mpath '/../dependencies/mmg/build/bin/mmg3d_O3'], 'file')
+                if ~exist([depsDir '/mmg/build/bin/mmg3d_O3'], 'file')
                     error('Dependency ''mmg'' not found. Run dependencies/install_cobiveco.sh to install.');
                 end
             end
             if ~exist('cotmatrix.m', 'file')
-                if ~exist([mpath '/../dependencies/gptoolbox'], 'dir')
+                if ~exist([depsDir '/gptoolbox'], 'dir')
                     error('Dependency ''gptoolbox'' not found. Run dependencies/install_cobiveco.sh to install.');
                 end
-                addpath([mpath '/../dependencies/gptoolbox/matrix']);
-                addpath([mpath '/../dependencies/gptoolbox/mesh']);
+                addpath([depsDir '/gptoolbox/matrix']);
+                addpath([depsDir '/gptoolbox/mesh']);
             end
             if ~exist('vtkRead.m', 'file')
-                if ~exist([mpath '/../dependencies/vtkToolbox'], 'dir')
+                if ~exist([depsDir '/vtkToolbox'], 'dir')
                     error('Dependency ''vtkToolbox'' not found. Run dependencies/install_cobiveco.sh to install.');
                 end
-                addpath([mpath '/../dependencies/vtkToolbox/MATLAB']);
+                addpath([depsDir '/vtkToolbox/MATLAB']);
             end
             if ~exist('conda.m', 'file')
-                if ~exist([mpath '/../dependencies/condalab'], 'dir')
+                if ~exist([depsDir '/condalab'], 'dir')
                     error('Dependency ''condalab'' not found. Run dependencies/install_cobiveco.sh to install.');
                 end
-                addpath([mpath '/../dependencies/condalab']);
+                addpath([depsDir '/condalab']);
             end
         end
         

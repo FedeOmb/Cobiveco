@@ -20,7 +20,11 @@ function [struct1, struct1FwBoundary, struct1SeptumBoundary] = createBoundarySur
     %
     % Written by Lisa Pankewitz
     % 
-    condaPath = '/home/federico/miniconda3/condabin/conda';    % replace this with the path to your conda installation, see README.md
+    condaDir = getenv('CONDA_DIR');
+    if isempty(condaDir)
+        condaDir = '/home/federico/miniconda3';
+    end
+    condaPath = [condaDir '/condabin/conda'];    % replace this with the path to your conda installation, see README.md
     conda.addBaseCondaPath(condaPath)
     % extract surfaces
     struct1.sur= vtkDataSetSurfaceFilter(vtkDeleteDataArrays(struct1.vol));
