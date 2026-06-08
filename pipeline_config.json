@@ -1,0 +1,7 @@
+{
+  "casesListFile": "./case_list.txt",
+  "cobivecoCasesFolder": "./input-data",
+  "bivmeOutputFolder": "/data/biv-me/sunnybrook/dicoms",
+  "coarseResolutionMm": 1.5,
+  "fineResolutionMm": 0.5
+}

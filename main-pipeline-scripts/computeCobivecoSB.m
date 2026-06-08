@@ -1,8 +1,8 @@
-function computeCobivecoSB(case_name)
+function computeCobivecoSB(inputBaseDir,case_name)
 
-input_folder = [case_name '/'];
+input_folder = [inputBaseDir '/' case_name '/'];
 input_prefix = case_name;
-output_folder = [case_name '_resCobiveco' '/'];
+output_folder = [inputBaseDir '/' case_name '_resCobiveco' '/'];
 
 if ~exist(output_folder,'dir'), mkdir(output_folder); end
 
@@ -24,6 +24,8 @@ end
 result = c.result;
 config = c.cfg;
 movefile([output_folder 'result.vtu'], [output_folder case_name '_resCobiveco.vtu'])
+movefile([input_folder case_name '.vtp'], output_folder);
+
 % % aggiunge le classi di superficie come pointData nella mesh finale
 % if isfield(c,'m0') && isfield(c.m0,'surToVol') && isfield(c.m0,'sur') && isfield(c.m0.sur.pointData,'class')
 %     cls = uint8(zeros(size(result.points,1),1));

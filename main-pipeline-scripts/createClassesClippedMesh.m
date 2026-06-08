@@ -1,7 +1,7 @@
-function createClassesClippedMesh(case_name, baseOrigin, baseNormal)
+function createClassesClippedMesh(inputBaseDir,case_name, baseOrigin, baseNormal)
 
-input_folder = [case_name '_input' '/'];
-output_folder = [case_name '/'];
+input_folder = [inputBaseDir '/' case_name '_input' '/'];
+output_folder = [inputBaseDir '/' case_name '/'];
 
 if ~exist(output_folder,'dir'), mkdir(output_folder); end
 
@@ -64,7 +64,7 @@ vtkWrite(debug,  [input_folder 'debug5_defclasses.vtk']);
 
 fprintf('Salvataggio risultati in corso...');
 %% Write result
-vtkWrite(sur,  [input_folder case_name 'clipped_sur.vtk']);
+%vtkWrite(sur,  [input_folder case_name 'clipped_sur.vtk']);
 vtkWrite(sur,  [output_folder case_name '.vtp']);
-vtkWrite(vol,  [input_folder case_name 'clipped_vol.vtk']);
+%vtkWrite(vol,  [input_folder case_name 'clipped_vol.vtk']);
 vtkWrite(vol,  [output_folder case_name '.vtu']);

@@ -1,8 +1,7 @@
-function computeProjectiveCoordinates(case_name)
+function computeProjectiveCoordinates(inputBaseDir, case_name)
 % Calcola e aggiunge le coordinate rvlv e aprt alla mesh, a partire dagli assi salvati in file .mat.
 
-    % Identifica la cartella di output e il file mesh in base alla pipeline
-    output_folder = [case_name '_resCobiveco/'];
+    output_folder = [inputBaseDir '/' case_name '_resCobiveco/'];
     mesh_file = fullfile(output_folder, [case_name '_resCobiveco.vtu']);
 
     % Verifica l'esistenza della mesh

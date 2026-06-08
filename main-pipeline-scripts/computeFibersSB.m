@@ -1,10 +1,9 @@
-function computeFibersSB(case_name)
+function computeFibersSB(inputBaseDir,case_name)
 
 %addpath('./LDRB_Fibers/functions');
-input_folder = [case_name '_resCobiveco' '/'];
-resCobivecoName = [case_name '_resCobiveco'];
-output_folder = [case_name '_resFibers' '/'];
-copyfile([case_name '/' case_name '.vtp'], input_folder);
+input_folder = [inputBaseDir '/' case_name '_resCobiveco' '/'];
+resCobivecoName = [inputBaseDir '/' case_name '_resCobiveco'];
+output_folder = [inputBaseDir '/' case_name '_resFibers' '/'];
 
 if ~exist(output_folder,'dir'), mkdir(output_folder); end
 
@@ -41,6 +40,9 @@ cfg.maxit = 1000;
 
 % res = ldrb_main_original(cfg);
 res = ldrb_main_adapted(cfg);
+
+%move vtp surface file into final output folder
+movefile([input_folder case_name '.vtp'], output_folder);
 
 %export file .lon per opencarp
 lon_filename = [ output_folder case_name '_fibersOpencarp.lon'];

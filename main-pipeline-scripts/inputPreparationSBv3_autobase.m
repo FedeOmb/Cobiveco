@@ -1,7 +1,7 @@
-function[baseNormal, baseOrigin] = inputPreparationSBv3_autobase(case_name)
+function[baseNormal, baseOrigin] = inputPreparationSBv3_autobase(inputBaseDir,case_name)
 
-input_folder = [case_name '_input' '/'];
-output_folder = [case_name '/'];
+input_folder = [inputBaseDir '/' case_name '_input' '/'];
+output_folder = [inputBaseDir '/' case_name '/'];
 
 if ~exist(output_folder,'dir'), mkdir(output_folder); end
 
@@ -46,8 +46,7 @@ meanEdgLen = mean(vtkEdgeLengths(vol));
 %baseShift = -7;
 %baseShift = -15;
 %baseOrigin = baseOrigin + baseShift*baseNormal;
-%baseNormal = [0.58 -0.37 -0.71];
-%baseOrigin = [32.13 -62.16 -36.20];
+
 %% Clip mesh at the basal plane
 fprintf('Clipping mesh alla base...');
 vol = cobiveco_clipBase(vol, baseNormal, baseOrigin);
@@ -96,7 +95,7 @@ vtkWrite(debug,  [input_folder 'debug5_defclasses.vtk']);
 
 fprintf('Salvataggio risultati in corso...');
 %% Write result
-vtkWrite(sur,  [input_folder case_name 'clipped_sur.vtk']);
+%vtkWrite(sur,  [input_folder case_name 'clipped_sur.vtk']);
 vtkWrite(sur,  [output_folder case_name '.vtp']);
-vtkWrite(vol,  [input_folder case_name 'clipped_vol.vtk']);
+%vtkWrite(vol,  [input_folder case_name 'clipped_vol.vtk']);
 vtkWrite(vol,  [output_folder case_name '.vtu']);
